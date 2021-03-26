@@ -95,12 +95,35 @@ const handleLoginFormSubmission = (event)=>{
     // when you have handled the token, navigate to the BubblePage route
   });
   return (
-    <>
+    <div className="loginFormCatchAll">
       <h1>
         Welcome to the Bubble App!
-        <p>Build a login page here</p>
       </h1>
-    </>
+      <form onSubmit={handleLoginFormSubmission}>
+          <label htmlFor="username">
+            <input
+              name="username"
+              id="username"
+              placeholder="Enter Your Username"
+              value={formValues.username}
+              onChange={handleLoginFormChange}
+            />
+          </label>
+
+          <label htmlFor="password">
+            <input
+              name="password"
+              id="password"
+              placeholder="Enter Your Password"
+              value={formValues.password}
+              onChange={handleLoginFormChange}
+            />
+          </label>
+          <button disabled={disabled}>Submit Login</button>
+        </form>
+        <p>{formErrors.username}</p>
+        <p>{formErrors.password}</p>
+    </div>
   );
 };
 
