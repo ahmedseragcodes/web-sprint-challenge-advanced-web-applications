@@ -1,5 +1,9 @@
+//TECH IMPORTS
 import React, { useState } from "react";
 import axios from "axios";
+//COMPONENT IMPORTS
+import EditMenu from "./EditMenu";
+
 
 const initialColor = {
   color: "",
