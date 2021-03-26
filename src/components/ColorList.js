@@ -1,5 +1,10 @@
+//TECH IMPORTS
 import React, { useState } from "react";
 import axios from "axios";
+//COMPONENT IMPORTS
+import EditMenu from "./EditMenu";
+import axiosWithAuth from "../helpers/axiosWithAuth";
+
 
 const initialColor = {
   color: "",
@@ -17,10 +22,33 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
-
+    axiosWithAuth()
+    .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+    .then((res)=>{
+      console.log("SUCCESSFULLY PUT UPDATED COLOR IN COLOR LIST", res);
+      updateColors(
+        colors.map((color)=>{
+          return JSON.stringify(color.id) === JSON.stringify(res.data.id) ? res.data : color
+        })
+      )
+    })
+    .catch((err)=>{
+      console.log("FAILED TO PUT UPDATED COLOR ON COLOR LIST", err);
+    })
   };
 
   const deleteColor = color => {
+    axiosWithAuth()
+    .delete(`http://localhost:5000/api/colors/${color.id}`)
+    .then((res)=>{
+      console.log("SUCCEEDED DELETING COLOR", res);
+      updateColors(colors.filter((col)=>{
+        return col !== color
+      }))
+    })
+    .catch((err)=>{
+      console.log("FAILED TO DELETE COLOR", err);
+    })
   };
 
   return (

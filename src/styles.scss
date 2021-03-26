@@ -117,3 +117,25 @@ button {
     margin-left: 16px;
   }
 }
+
+.loginFormCatchAll {
+width: 100%;
+background-color: #FF9A8B;
+background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+input, label {
+  margin: .1rem;
+  border-radius: .5rem;
+}
+input {
+  box-shadow: .5rem .5rem .5rem 0rem black;
+  padding: .1rem;
+}
+button {
+  border-radius: .5rem;
+  border: .3rem ridge white;
+}
+}
