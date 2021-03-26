@@ -1,7 +1,92 @@
-import React, { useEffect } from "react";
+//TECH IMPORTS 
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
+import * as Yup from "yup";
+
 
 const Login = () => {
+
+//SLICES OF STATE / HOOKS / PROPS
+
+const history = useHistory();
+
+const initialFormValues = {
+  username: "",
+  password: "",
+}
+
+const initialFormErrors = {
+  username: "",
+  password: "",
+}
+
+const [formValues, setFormValues]=useState(initialFormValues);
+const [formErrors, setFormErrors]=useState(initialFormErrors);
+const [disabled, setDisabled]=useState("");
+
+
+//YUP FORM SCHEMA 
+
+const formSchema = Yup.object().shape({
+  username: Yup
+  .string()
+  .required("A Username Entry Is Required"),
+  password: Yup
+  .string()
+  .required("A Password Entry Is Required")
+  .min(6, "Passwords Must Be At-least 6 Characters Long"),
+})
+
+//SETS FORM SUBMISSION BUTTON TO DISABLED UNTIL FORM VALUES ARE VALID 
+useEffect(()=>{
+  formSchema.isValid(formValues).then((valid)=>{
+    setDisabled(!valid)
+  })
+},[formValues])
+
+//HANDLES CHANGES TO LOGIN FORM AS WELL AS RUNS FORM VALIDATION 
+
+const handleLoginFormChange = (event) => {
+  
+  const {name, value, checked, type}=event.target;
+
+  const valueToUse = type === "checkbox" ? checked : value
+  
+  Yup
+  .reach(formSchema, name)
+  .validate(value)
+  .then((valid)=>{
+    setFormErrors({
+      ...formErrors, [name]: "",
+    })
+  })
+  .catch((err)=>{
+    setFormErrors({
+      ...formErrors, [name]: err.errors[0],
+    })
+  })
+
+  setFormValues({
+    ...formValues, [name]: valueToUse
+  })
+}
+
+
+//HANDLES LOGIN FORM SUBMISSION 
+const handleLoginFormSubmission = (event)=>{
+  event.preventDefault();
+  axios.post("http://localhost:5000/api/login", formValues)
+  .then((res)=>{
+    console.log("SUCCEEDED POSTING LOGIN TO DATABASE", res);
+  })
+  .catch((err)=>{
+    console.log("FAILED POSTING LOGIN TO DATABASE", err);
+  })
+
+}
+
+
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
 
