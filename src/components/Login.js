@@ -22,6 +22,7 @@ const initialFormErrors = {
 }
 
 const [formValues, setFormValues]=useState(initialFormValues);
+const [initialError, setInitialError]=useState("")
 const [formErrors, setFormErrors]=useState(initialFormErrors);
 const [disabled, setDisabled]=useState("");
 
@@ -84,6 +85,7 @@ const handleLoginFormSubmission = (event)=>{
   })
   .catch((err)=>{
     console.log("FAILED POSTING LOGIN TO DATABASE", err);
+    setInitialError("Username or Password not valid");
   })
 
 }
@@ -118,6 +120,7 @@ const handleLoginFormSubmission = (event)=>{
           </label>
           <button disabled={disabled}>Submit Login</button>
         </form>
+        <p>{initialError}</p>
         <p>{formErrors.username}</p>
         <p>{formErrors.password}</p>
     </div>

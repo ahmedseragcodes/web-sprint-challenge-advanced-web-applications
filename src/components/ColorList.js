@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 //COMPONENT IMPORTS
 import EditMenu from "./EditMenu";
+import axiosWithAuth from "../helpers/axiosWithAuth";
 
 
 const initialColor = {
@@ -21,7 +22,19 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
-
+    axiosWithAuth()
+    .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+    .then((res)=>{
+      console.log("SUCCESSFULLY PUT UPDATED COLOR IN COLOR LIST", res);
+      updateColors(
+        colors.filter((color)=>{
+          return color.id == res.data.id ? res.data : color
+        })
+      )
+    })
+    .catch((err)=>{
+      console.log("FAILED TO PUT UPDATED COLOR ON COLOR LIST", err);
+    })
   };
 
   const deleteColor = color => {
