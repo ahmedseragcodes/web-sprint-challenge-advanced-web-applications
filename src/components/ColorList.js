@@ -27,8 +27,8 @@ const ColorList = ({ colors, updateColors }) => {
     .then((res)=>{
       console.log("SUCCESSFULLY PUT UPDATED COLOR IN COLOR LIST", res);
       updateColors(
-        colors.filter((color)=>{
-          return color.id == res.data.id ? res.data : color
+        colors.map((color)=>{
+          return JSON.stringify(color.id) === JSON.stringify(res.data.id) ? res.data : color
         })
       )
     })

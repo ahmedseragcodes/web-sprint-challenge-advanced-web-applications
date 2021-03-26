@@ -21,7 +21,7 @@ const BubblePage = () => {
     .catch((err)=>{
       console.log("FAILED TO GET COLORS IN BUBBLE PAGE", err);
     })
-  },[colorList])
+  },[])
 
 
   //BEGIN COMP RETURN 
