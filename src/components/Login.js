@@ -79,6 +79,8 @@ const handleLoginFormSubmission = (event)=>{
   axios.post("http://localhost:5000/api/login", formValues)
   .then((res)=>{
     console.log("SUCCEEDED POSTING LOGIN TO DATABASE", res);
+    localStorage.setItem("token", res.data.payload);
+    history.push("/protected");
   })
   .catch((err)=>{
     console.log("FAILED POSTING LOGIN TO DATABASE", err);
@@ -86,14 +88,7 @@ const handleLoginFormSubmission = (event)=>{
 
 }
 
-
-  // make a post request to retrieve a token from the api
-  // when you have handled the token, navigate to the BubblePage route
-
-  useEffect(()=>{
-    // make a post request to retrieve a token from the api
-    // when you have handled the token, navigate to the BubblePage route
-  });
+//BEGIN FUNCTIONAL COMPONENT RETURN 
   return (
     <div className="loginFormCatchAll">
       <h1>
@@ -102,6 +97,7 @@ const handleLoginFormSubmission = (event)=>{
       <form onSubmit={handleLoginFormSubmission}>
           <label htmlFor="username">
             <input
+              type="text"
               name="username"
               id="username"
               placeholder="Enter Your Username"
@@ -112,6 +108,7 @@ const handleLoginFormSubmission = (event)=>{
 
           <label htmlFor="password">
             <input
+              type="password"
               name="password"
               id="password"
               placeholder="Enter Your Password"
